@@ -158,17 +158,23 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
 
       _signaling!.onLocalStream = ((stream) {
         print('onLocalStream: ${stream.id}');
-        _localRenderer.srcObject = stream;
+        setState(() {
+          _localRenderer.srcObject = stream;
+        });
       });
 
       _signaling!.onAddRemoteStream = ((stream) {
         print('onAddRemoteStream: ${stream.id}');
-        _remoteRenderer.srcObject = stream;
+        setState(() {
+          _remoteRenderer.srcObject = stream;
+        });
       });
 
       _signaling!.onRemoveRemoteStream = ((stream) {
         print('onRemoveRemoteStream');
-        _remoteRenderer.srcObject = null;
+        // setState(() {
+        //   _remoteRenderer.srcObject = null;
+        // });
       });
     }
   }

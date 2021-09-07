@@ -28,7 +28,7 @@ class ApiClient{
     print('[${config.method}] Received: ${_response.reasonPhrase} [${_response.statusCode}] - ${config.uri.toString()}');
 
     if(_response.statusCode == HttpStatus.ok){
-      return config.hasResponse ? Future<T>.value(config.responseType!.parse(_response)) : Future<HttpClientResponse>.value(_response) as FutureOr<T?>;
+      return config.hasResponse ? config.responseType!.parse(_response) : Future<HttpClientResponse>.value(_response) as FutureOr<T?>;
     }
 
     return await (_processError(_response, config, onAutoLoginSuccess: () => request<T>(config)) as FutureOr<T?>);
@@ -141,7 +141,7 @@ class PenkalaError{
         print('URL: ${config.uri.toString()}');
         print('Headers: ${config.headers.toString()}');
         print('Body: ${config.body?.getBody()}');
-        print('Data: ${_responseData ?? ''}');
+        print('Data: $_responseData');
         break;
     }
 

@@ -494,7 +494,8 @@ class Signaling {
         'optional': [],
       }
     };
-    MediaStream stream = await navigator.getUserMedia(mediaConstraints);
+    // MediaStream stream = await navigator.getUserMedia(mediaConstraints);
+    MediaStream stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
     if (isLocalStream && this.onLocalStream != null) {
       this.onLocalStream!(stream);
     }
