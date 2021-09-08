@@ -170,11 +170,15 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
         });
       });
 
+      _signaling!.onParticipantsJoined = ((stream) {
+        setState(() {
+          _remoteRenderer.srcObject = stream;
+        });
+      });
+
       _signaling!.onRemoveRemoteStream = ((stream) {
         print('onRemoveRemoteStream');
-        // setState(() {
-        //   _remoteRenderer.srcObject = null;
-        // });
+        _remoteRenderer.srcObject = null;
       });
     }
   }

@@ -26,11 +26,11 @@ class ApiClient{
     final HttpClientResponse _response = await _request.close();
 
     print('[${config.method}] Received: ${_response.reasonPhrase} [${_response.statusCode}] - ${config.uri.toString()}');
+    print('Has Response:' + config.hasResponse.toString());
 
-    if(_response.statusCode == HttpStatus.ok){
+    if(_response.statusCode == HttpStatus.ok  || _response.statusCode == HttpStatus.conflict){
       return config.hasResponse ? config.responseType!.parse(_response) : Future<HttpClientResponse>.value(_response) as FutureOr<T?>;
     }
-
     return await (_processError(_response, config, onAutoLoginSuccess: () => request<T>(config)) as FutureOr<T?>);
   }
 

@@ -178,28 +178,24 @@ class Signaling {
       'customSessionId': sessionId
     };
     final Map<String, dynamic> headersMap = <String, dynamic>{
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode('OPENVIDUAPP:$_secret'))}'
+      'Authorization': 'Basic ${base64Encode(utf8.encode('OPENVIDUAPP:$_secret'))}'
     };
-    return ApiClient()
-        .request<Map<String, dynamic>>(
+    return ApiClient().request<Map<String, dynamic>>(
       Config(
-          uri: Uri.parse('https://$_url/api/sessions'),
-          headers: headersMap,
-          body: RequestBody.json(bodyMap),
-          method: RequestMethod.post,
-          responseType: ResponseBody.json()),
-    )
-        .then((Map<String, dynamic>? jsonResponse) {
-      print(
-          '◤◢◤◢◤◢◤◢◤◢◤ Create WebRTC session POST response: $jsonResponse ◤◢◤◢◤◢◤◢◤◢◤');
+        uri: Uri.parse('https://$_url/api/sessions'),
+        headers: headersMap,
+        body: RequestBody.json(bodyMap),
+        method: RequestMethod.post,
+        responseType: ResponseBody.json()),
+    ).then((Map<String, dynamic>? jsonResponse) {
+      print('◤◢◤◢◤◢◤◢◤◢◤ Create WebRTC session POST response: $jsonResponse ◤◢◤◢◤◢◤◢◤◢◤');
       session = jsonResponse!['id'];
-      rol = JsonConstants.publisher;
+      rol = JsonConstants.subscriber;
       return session;
     }).catchError((error) {
       //__FIX_IT_IF_ERROR_409
       session = sessionId;
-      rol = JsonConstants.subscriber;
+      rol = JsonConstants.publisher;
       print('createWebRtcSession error: $error');
       return sessionId;
     });
@@ -358,7 +354,7 @@ class Signaling {
   }
 
   Future<void> _addParticipantsAlreadyInRoom(List<dynamic> values) async {
-    for (Map<String, dynamic> value in values as Iterable<Map<String, dynamic>>) {
+    for (Map<String, dynamic> value in values) {
       String? _remoteParticipantId = value[JsonConstants.id];
       RemoteParticipant remoteParticipant = RemoteParticipant(
           id: _remoteParticipantId, metadata: value[JsonConstants.metadata]);

@@ -113,6 +113,7 @@ class _JsonResponse extends _ResponseBodyType {
   @override
   Future<Map<String, dynamic>?> parse(HttpClientResponse response) async =>
     jsonDecode(await utf8.decodeStream(response));//response.transform(utf8.decoder).join());
+    // jsonDecode(await response.transform(utf8.decoder).join());
 }
 
 class _DocumentResponse extends _ResponseBodyType {
