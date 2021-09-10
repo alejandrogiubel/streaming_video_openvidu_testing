@@ -190,12 +190,12 @@ class Signaling {
     ).then((Map<String, dynamic>? jsonResponse) {
       print('◤◢◤◢◤◢◤◢◤◢◤ Create WebRTC session POST response: $jsonResponse ◤◢◤◢◤◢◤◢◤◢◤');
       session = jsonResponse!['id'];
-      rol = JsonConstants.subscriber;
+      rol = JsonConstants.publisher;
       return session;
     }).catchError((error) {
       //__FIX_IT_IF_ERROR_409
       session = sessionId;
-      rol = JsonConstants.publisher;
+      rol = JsonConstants.subscriber;
       print('createWebRtcSession error: $error');
       return sessionId;
     });

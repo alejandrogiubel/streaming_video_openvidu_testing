@@ -28,6 +28,7 @@ class CallSampleWidget extends StatefulWidget {
 class _CallSampleWidgetState extends State<CallSampleWidget> {
   final _localRenderer = new RTCVideoRenderer();
   final _remoteRenderer = new RTCVideoRenderer();
+  String _title = 'Title';
 
   Signaling? _signaling;
 
@@ -61,21 +62,24 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: AppBar(
+        title: Text(_title),
+      ),
       body: OrientationBuilder(builder: (context, orientation) {
         return new Container(
           child: new Stack(children: <Widget>[
             new Positioned(
-                left: 0.0,
-                right: 0.0,
-                top: 0.0,
-                bottom: 0.0,
-                child: new Container(
-                  margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: new RTCVideoView(_remoteRenderer),
-                  decoration: new BoxDecoration(color: Colors.black54),
-                )),
+              left: 0.0,
+              right: 0.0,
+              top: 0.0,
+              bottom: 0.0,
+              child: new Container(
+                margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: new RTCVideoView(_remoteRenderer),
+                decoration: new BoxDecoration(color: Colors.black54),
+              )),
             new Positioned(
               left: 20.0,
               top: 40.0,
@@ -179,6 +183,12 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
       _signaling!.onRemoveRemoteStream = ((stream) {
         print('onRemoveRemoteStream');
         _remoteRenderer.srcObject = null;
+      });
+
+      _signaling!.onParticipantsRemove = ((stream) {
+        setState(() {
+          _title = 'ON PARTICIPANT REMOVE TRIGGERED';
+        });
       });
     }
   }
